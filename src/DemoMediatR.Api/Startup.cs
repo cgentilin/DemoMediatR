@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using DemoMediatR.Application.Domain.Interfaces;
 using DemoMediatR.Application.Repositories;
+using Microsoft.OpenApi.Models;
+using System.IO;
 
 namespace DemoMediatR.Api
 {
@@ -41,6 +43,15 @@ namespace DemoMediatR.Api
         {
             services.AddScoped<IUserRepository, UserRepository>();
             AddMediatr(services);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MediatR - API Exemplo uso MediatR", Version = "v1" });
+                c.CustomSchemaIds(x => x.FullName);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "DemoMediatR.Application.xml");
+                c.IncludeXmlComments(xmlPath);
+            });
+
         }
 
         private static void AddMediatr(IServiceCollection services)
