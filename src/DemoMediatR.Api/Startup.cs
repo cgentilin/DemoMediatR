@@ -37,6 +37,12 @@ namespace DemoMediatR.Api
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "DemoMediatR.Api");
+                c.RoutePrefix = string.Empty;
+            });
         }
 
         private static void AddApplicationServices(IServiceCollection services)
@@ -48,7 +54,7 @@ namespace DemoMediatR.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MediatR - API Exemplo uso MediatR", Version = "v1" });
                 c.CustomSchemaIds(x => x.FullName);
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, "DemoMediatR.Application.xml");
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "DemoMediatR.Api.xml");
                 c.IncludeXmlComments(xmlPath);
             });
 
